@@ -1,0 +1,10 @@
+addr = ":8888"
+log_level = "debug"
+api_prefix = "/api"
+enable_swagger = true
+
+[db]
+driver = "postgres"
+dsn = "host=localhost user=postgres password=postgres dbname=ddc TimeZone=Asia/Shanghai"
+max_idle_conn = 5
+max_open_conn = 5

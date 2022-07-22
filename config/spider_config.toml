@@ -1,0 +1,10 @@
+clip_processor_num = 1
+comment_processor_num = 1
+request_limit = 5
+log_level = "info"
+
+[db]
+driver = "postgres"
+dsn = "host=localhost user=postgres password=postgres dbname=ddc TimeZone=Asia/Shanghai"
+max_idle_conn = 5
+max_open_conn = 5

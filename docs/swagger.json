@@ -1,0 +1,258 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "DDC API",
+        "title": "DDC API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Sora233",
+            "url": "https://github.com/Sora233",
+            "email": "sora@sora233.me"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/danmu": {
+            "get": {
+                "description": "查询弹幕",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "查询弹幕",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "要查询的uid",
+                        "name": "uid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetSearchDanmuResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/money": {
+            "get": {
+                "description": "查询消费",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "查询消费",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "要查询的uid",
+                        "name": "uid",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetSearchMoneyResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/ping": {
+            "get": {
+                "description": "ping server",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "ping server",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PingResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Danmu": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "description": "弹幕内容",
+                    "type": "string"
+                },
+                "time": {
+                    "description": "发送时间",
+                    "type": "string"
+                },
+                "vtb_name": {
+                    "description": "主播名称",
+                    "type": "string"
+                },
+                "vtb_uid": {
+                    "description": "主播uid",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.GetSearchDanmuResp": {
+            "type": "object",
+            "properties": {
+                "damus": {
+                    "description": "用户发送的弹幕",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Danmu"
+                    }
+                },
+                "error_code": {
+                    "description": "错误码",
+                    "type": "integer"
+                },
+                "error_msg": {
+                    "description": "错误信息",
+                    "type": "string"
+                },
+                "request_id": {
+                    "description": "本次请求requestid",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "model.GetSearchMoneyResp": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "description": "错误码",
+                    "type": "integer"
+                },
+                "error_msg": {
+                    "description": "错误信息",
+                    "type": "string"
+                },
+                "gifts": {
+                    "description": "用户消费的礼物",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Gift"
+                    }
+                },
+                "request_id": {
+                    "description": "本次请求requestid",
+                    "type": "string"
+                },
+                "super_chats": {
+                    "description": "用户消费的superchat\"",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.SuperChat"
+                    }
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "model.Gift": {
+            "type": "object",
+            "properties": {
+                "gift_name": {
+                    "description": "礼物名字",
+                    "type": "string"
+                },
+                "gift_num": {
+                    "description": "礼物数量",
+                    "type": "integer"
+                },
+                "gift_price": {
+                    "description": "礼物价格",
+                    "type": "number"
+                },
+                "time": {
+                    "description": "发送时间",
+                    "type": "string"
+                },
+                "vtb_name": {
+                    "description": "主播名称",
+                    "type": "string"
+                },
+                "vtb_uid": {
+                    "description": "主播uid",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.PingResp": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "description": "错误码",
+                    "type": "integer"
+                },
+                "error_msg": {
+                    "description": "错误信息",
+                    "type": "string"
+                },
+                "pong": {
+                    "description": "Pong",
+                    "type": "string"
+                },
+                "request_id": {
+                    "description": "本次请求requestid",
+                    "type": "string"
+                }
+            }
+        },
+        "model.SuperChat": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "description": "superchat价格",
+                    "type": "integer"
+                },
+                "text": {
+                    "description": "superchat留言",
+                    "type": "string"
+                },
+                "time": {
+                    "description": "发送时间",
+                    "type": "string"
+                },
+                "vtb_name": {
+                    "description": "主播名称",
+                    "type": "string"
+                },
+                "vtb_uid": {
+                    "description": "主播uid",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

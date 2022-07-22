@@ -1,0 +1,179 @@
+definitions:
+  model.Danmu:
+    properties:
+      text:
+        description: 弹幕内容
+        type: string
+      time:
+        description: 发送时间
+        type: string
+      vtb_name:
+        description: 主播名称
+        type: string
+      vtb_uid:
+        description: 主播uid
+        type: integer
+    type: object
+  model.GetSearchDanmuResp:
+    properties:
+      damus:
+        description: 用户发送的弹幕
+        items:
+          $ref: '#/definitions/model.Danmu'
+        type: array
+      error_code:
+        description: 错误码
+        type: integer
+      error_msg:
+        description: 错误信息
+        type: string
+      request_id:
+        description: 本次请求requestid
+        type: string
+      username:
+        description: 用户名
+        type: string
+    type: object
+  model.GetSearchMoneyResp:
+    properties:
+      error_code:
+        description: 错误码
+        type: integer
+      error_msg:
+        description: 错误信息
+        type: string
+      gifts:
+        description: 用户消费的礼物
+        items:
+          $ref: '#/definitions/model.Gift'
+        type: array
+      request_id:
+        description: 本次请求requestid
+        type: string
+      super_chats:
+        description: 用户消费的superchat"
+        items:
+          $ref: '#/definitions/model.SuperChat'
+        type: array
+      username:
+        description: 用户名
+        type: string
+    type: object
+  model.Gift:
+    properties:
+      gift_name:
+        description: 礼物名字
+        type: string
+      gift_num:
+        description: 礼物数量
+        type: integer
+      gift_price:
+        description: 礼物价格
+        type: number
+      time:
+        description: 发送时间
+        type: string
+      vtb_name:
+        description: 主播名称
+        type: string
+      vtb_uid:
+        description: 主播uid
+        type: integer
+    type: object
+  model.PingResp:
+    properties:
+      error_code:
+        description: 错误码
+        type: integer
+      error_msg:
+        description: 错误信息
+        type: string
+      pong:
+        description: Pong
+        type: string
+      request_id:
+        description: 本次请求requestid
+        type: string
+    type: object
+  model.SuperChat:
+    properties:
+      price:
+        description: superchat价格
+        type: integer
+      text:
+        description: superchat留言
+        type: string
+      time:
+        description: 发送时间
+        type: string
+      vtb_name:
+        description: 主播名称
+        type: string
+      vtb_uid:
+        description: 主播uid
+        type: integer
+    type: object
+info:
+  contact:
+    email: sora@sora233.me
+    name: Sora233
+    url: https://github.com/Sora233
+  description: DDC API
+  license:
+    name: MIT
+  termsOfService: http://swagger.io/terms/
+  title: DDC API
+  version: "1.0"
+paths:
+  /v1/danmu:
+    get:
+      description: 查询弹幕
+      parameters:
+      - description: 要查询的uid
+        in: query
+        name: uid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetSearchDanmuResp'
+      summary: 查询弹幕
+      tags:
+      - api
+  /v1/money:
+    get:
+      description: 查询消费
+      parameters:
+      - description: 要查询的uid
+        in: query
+        name: uid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetSearchMoneyResp'
+      summary: 查询消费
+      tags:
+      - api
+  /v1/ping:
+    get:
+      description: ping server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PingResp'
+      summary: ping server
+      tags:
+      - api
+swagger: "2.0"
