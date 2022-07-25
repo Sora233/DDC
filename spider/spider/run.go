@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/Sora233/DDC/db"
 	"github.com/Sora233/DDC/spider/config"
+	"github.com/jellydator/ttlcache/v3"
 	"github.com/samber/lo"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/exp/slices"
@@ -15,6 +16,13 @@ import (
 )
 
 var limiter = rate.NewLimiter(rate.Every(time.Second*5), 1)
+var ttl = ttlcache.New[string, bool](
+	ttlcache.WithTTL[string, bool](5 * time.Minute),
+)
+
+func init() {
+	go ttl.Start()
+}
 
 func checkLimit() {
 	_ = limiter.Wait(context.Background())
@@ -206,13 +214,20 @@ func CommentProcessor(wg *sync.WaitGroup, c <-chan *Clip) {
 			WithField("clip_id", clip.ID).
 			WithField("start_time", time.UnixMilli(clip.StartTime))
 
+		if item := ttl.Get(clip.ID, ttlcache.WithDisableTouchOnHit[string, bool]()); item != nil {
+			log.Debug("skip error cache")
+			continue
+		}
+
 		commentsResp, err := GetComments(clip.ID)
 		if err != nil {
 			log.Errorf("GetComments error %v", err)
+			ttl.Set(clip.ID, true, ttlcache.DefaultTTL)
 			continue
 		}
 		if commentsResp.Status != 0 {
 			log.Errorf("CommentsResp status %v", commentsResp.Status)
+			ttl.Set(clip.ID, true, ttlcache.DefaultTTL)
 			continue
 		}
 		var cms []*db.Comment
