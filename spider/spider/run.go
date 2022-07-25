@@ -31,6 +31,16 @@ func Run() {
 	var clipWg sync.WaitGroup
 	var commentWg sync.WaitGroup
 
+	channelResp, err := GetChannel()
+	if err != nil {
+		logrus.Errorf("GetChannel error %v", err)
+		return
+	}
+	if channelResp.Status != 0 {
+		logrus.Errorf("ChannelReps status %v", channelResp.Status)
+		return
+	}
+
 	var clipProcessorNum = config.Global.ClipProcessorNum
 	var commentProcessorNum = config.Global.CommentProcessorNum
 
@@ -42,16 +52,6 @@ func Run() {
 	for i := 0; i < commentProcessorNum; i++ {
 		commentWg.Add(1)
 		go CommentProcessor(&commentWg, clipChan)
-	}
-
-	channelResp, err := GetChannel()
-	if err != nil {
-		logrus.Errorf("GetChannel error %v", err)
-		return
-	}
-	if channelResp.Status != 0 {
-		logrus.Errorf("ChannelReps status %v", channelResp.Status)
-		return
 	}
 
 	lo.ForEach(channelResp.Data, func(info *VTBInfo, idx int) {
