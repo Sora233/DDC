@@ -15,7 +15,7 @@ func WrapperMiddleware(component string) gin.HandlerFunc {
 			"request_id": requestID,
 			"path":       c.Request.URL.Path,
 			"method":     c.Request.Method,
-			"client_ip":  c.Request.RemoteAddr,
+			"client_ip":  c.ClientIP(),
 		}))
 		start := time.Now()
 
