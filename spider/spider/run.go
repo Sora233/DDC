@@ -26,10 +26,6 @@ func checkTime(msec int64) bool {
 
 func Run() {
 	limiter.SetLimit(rate.Every(time.Second * time.Duration(config.Global.RequestLimit)))
-	var vtbinfoChan = make(chan *VTBInfo, 4)
-	var clipChan = make(chan *Clip, 4)
-	var clipWg sync.WaitGroup
-	var commentWg sync.WaitGroup
 
 	channelResp, err := GetChannel()
 	if err != nil {
@@ -40,6 +36,11 @@ func Run() {
 		logrus.Errorf("ChannelReps status %v", channelResp.Status)
 		return
 	}
+
+	var vtbinfoChan = make(chan *VTBInfo, 4)
+	var clipChan = make(chan *Clip, 4)
+	var clipWg sync.WaitGroup
+	var commentWg sync.WaitGroup
 
 	var clipProcessorNum = config.Global.ClipProcessorNum
 	var commentProcessorNum = config.Global.CommentProcessorNum
