@@ -1,6 +1,7 @@
 package spider
 
 import (
+	"github.com/Sora233/DDC/spider/config"
 	"github.com/guonaihong/gout"
 )
 
@@ -29,7 +30,7 @@ func GetChannel() (*ChannelResp, error) {
 	checkLimit()
 	var resp = new(ChannelResp)
 	err := gout.GET(channelUrl).SetHeader(gout.H{
-		"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+		"user-agent": config.Global.UserAgent,
 	}).BindJSON(resp).Do()
 	return resp, err
 }

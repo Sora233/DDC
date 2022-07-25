@@ -2,6 +2,7 @@ package spider
 
 import (
 	"fmt"
+	"github.com/Sora233/DDC/spider/config"
 	"github.com/guonaihong/gout"
 )
 
@@ -27,7 +28,7 @@ func GetClips(uid int64) (*ClipsResp, error) {
 	checkLimit()
 	var resp = new(ClipsResp)
 	err := gout.GET(fmt.Sprintf(clipsUrl, uid)).SetHeader(gout.H{
-		"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+		"user-agent": config.Global.UserAgent,
 	}).BindJSON(resp).Do()
 	return resp, err
 }

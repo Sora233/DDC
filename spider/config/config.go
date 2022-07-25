@@ -10,6 +10,7 @@ type Config struct {
 	CommentProcessorNum int       `toml:"comment_processor_num"`
 	RequestLimit        int       `toml:"request_limit"`
 	LogLevel            string    `toml:"log_level"`
+	UserAgent           string    `toml:"user_agent"`
 }
 
 var Global Config
