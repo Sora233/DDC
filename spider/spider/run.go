@@ -46,10 +46,12 @@ func Run() {
 
 	channelResp, err := GetChannel()
 	if err != nil {
-		logrus.Fatalf("GetChannel error %v", err)
+		logrus.Errorf("GetChannel error %v", err)
+		return
 	}
 	if channelResp.Status != 0 {
-		logrus.Fatalf("ChannelReps status %v", channelResp.Status)
+		logrus.Errorf("ChannelReps status %v", channelResp.Status)
+		return
 	}
 
 	lo.ForEach(channelResp.Data, func(info *VTBInfo, idx int) {
